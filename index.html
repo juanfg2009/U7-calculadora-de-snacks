@@ -4,181 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Snack & Travel Calculator</title>
-
+    <title>Calculadora de Snacks</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <header class="header">
-        <nav>
-            <h2>SNACK<span>LAB</span></h2>
-            <p>PROYECTO · UNIDAD 7</p>
-        </nav>
+    <div class="contenedor">
+        <h1>🍿 Calculadora de Snacks</h1>
 
-        <div class="portada">
-            <p class="etiqueta">CALCULADORA INTERACTIVA</p>
-            <h1>Calculá hoy.<br><span>Disfrutá mañana.</span></h1>
-            <p class="descripcion">
-                Descubrí cuánto gastarías en tus snacks favoritos
-                y organizá el presupuesto de tu próximo viaje.
-            </p>
-        </div>
-    </header>
+        <p>Calculá cuántos snacks vas a consumir durante el resto de tu vida.</p>
 
-    <main>
+        <label>¿Cuántos años tenés?</label>
+        <input type="number" id="edadActual" placeholder="Ej: 17">
 
-        <!-- CALCULADORA DE SNACKS -->
+        <label>¿Hasta qué edad estimás que vas a vivir?</label>
+        <input type="number" id="edadMaxima" placeholder="Ej: 85">
 
-        <section class="card">
+        <label>¿Cuál es tu snack favorito?</label>
+        <input type="text" id="snack" placeholder="Ej: Papas fritas">
 
-            <div class="card-titulo">
-                <span>01 / SNACKS</span>
-                <h2>Tu snack de por vida</h2>
-                <p>¿Cuántos snacks vas a necesitar durante el resto de tu vida?</p>
-            </div>
+        <label>¿Cuántos snacks comés por día?</label>
+        <input type="number" id="snacksPorDia" placeholder="Ej: 2">
 
-            <form id="formSnacks">
+        <label>¿Cuánto cuesta cada snack? ($)</label>
+        <input type="number" id="precioPorSnack" placeholder="Ej: 1500">
 
-                <div class="campos">
+        <button onclick="calcularSnacks()">Calcular</button>
 
-                    <label>
-                        Edad actual
-                        <input type="number" id="edadActual" value="17" min="0" max="150">
-                    </label>
-
-                    <label>
-                        Edad máxima estimada
-                        <input type="number" id="edadMaxima" value="85" min="1" max="150">
-                    </label>
-
-                    <label>
-                        Snack favorito
-                        <input type="text" id="snackFavorito" value="Papas fritas">
-                    </label>
-
-                    <label>
-                        Snacks por día
-                        <input type="number" id="snacksPorDia" value="2" min="0" step="0.5">
-                    </label>
-
-                    <label class="campo-completo">
-                        Precio por unidad ($)
-                        <input type="number" id="precioPorUnidad" value="1500" min="0">
-                    </label>
-
-                </div>
-
-            </form>
-
-            <div class="resultado">
-
-                <p class="resultado-label">VAS A NECESITAR</p>
-
-                <h3 id="cantidadFinal">49.640</h3>
-
-                <p id="nombreSnack">Papas fritas</p>
-
-                <div class="separador"></div>
-
-                <p class="gasto-label">GASTO TOTAL ESTIMADO</p>
-                <h2 id="gastoTotal">$74.460.000</h2>
-
-                <p id="fraseSnacks" class="frase"></p>
-
-            </div>
-
-            <button type="button" id="alertSnacks">
-                Ver resultado completo →
-            </button>
-
-        </section>
-
-
-        <!-- CALCULADORA DE VIAJE -->
-
-        <section class="card viaje">
-
-            <div class="card-titulo">
-                <span>02 / TRAVEL</span>
-                <h2>Organizá tu viaje</h2>
-                <p>Distribuí tu presupuesto para saber cuánto podés gastar en cada comida.</p>
-            </div>
-
-            <form id="formViaje">
-
-                <div class="campos">
-
-                    <label>
-                        Días de viaje
-                        <input type="number" id="diasDeViaje" value="10" min="1">
-                    </label>
-
-                    <label>
-                        Presupuesto máximo ($)
-                        <input type="number" id="presupuestoMaximo" value="600000" min="0">
-                    </label>
-
-                    <label class="campo-completo">
-                        Cantidad total de comidas
-                        <input type="number" id="comidasTotales" value="30" min="1">
-                    </label>
-
-                </div>
-
-            </form>
-
-            <div class="ticket">
-
-                <div class="ticket-top">
-                    <span>TRAVEL PASS</span>
-                    <span>✈</span>
-                </div>
-
-                <div class="ticket-datos">
-
-                    <div>
-                        <small>DÍAS</small>
-                        <h3 id="tDias">10</h3>
-                    </div>
-
-                    <div>
-                        <small>PRESUPUESTO</small>
-                        <h3 id="tPresupuesto">$600.000</h3>
-                    </div>
-
-                    <div>
-                        <small>COMIDAS</small>
-                        <h3 id="tComidas">30</h3>
-                    </div>
-
-                </div>
-
-                <div class="ticket-total">
-                    <p>PRESUPUESTO POR COMIDA</p>
-                    <h2 id="tPorComida">$20.000</h2>
-                </div>
-
-                <p id="fraseViaje"></p>
-
-            </div>
-
-            <button type="button" id="alertViaje">
-                Ver resultado completo →
-            </button>
-
-        </section>
-
-    </main>
-
-    <footer>
-        <h2>SNACK<span>LAB</span></h2>
-        <p>Calculadora interactiva · JavaScript</p>
-    </footer>
+        <div id="resultado"></div>
+    </div>
 
     <script src="script.js"></script>
-
 </body>
 </html>
