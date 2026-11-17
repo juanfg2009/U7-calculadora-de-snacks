@@ -1,16 +1,156 @@
-let edadActual = 16;
-let edadMaxima = 85;
-let snack = "papas fritas";
-let snacksPorDia = 2;
-let precioPorSnack = 1500;
 
-// Calculamos los snacks que quedan
-let snacksRestantes = (edadMaxima - edadActual) * 365 * snacksPorDia;
+const pesos = new Intl.NumberFormat("es-AR", {
+    style: "currency",
+    currency: "ARS",
+    maximumFractionDigits: 0
+});
 
-// Calculamos el gasto total
-let gastoTotal = snacksRestantes * precioPorSnack;
+const numeros = new Intl.NumberFormat("es-AR");
 
-// Mostramos los resultados
-alert("Necesitarás " + snacksRestantes + " de " + snack + " para que te alcancen hasta los " + edadMaxima + " años.");
+function leer(id) {
+    return document.getElementById(id).value;
+}
 
-alert("Gastarás $" + gastoTotal + " en total durante el resto de tu vida.");
+
+// CALCULADORA DE SNACKS
+
+function calcularSnacks() {
+
+    let edadActual = Number(leer("edadActual"));
+    let edadMaxima = Number(leer("edadMaxima"));
+
+    let snackFavorito = leer("snackFavorito").trim() || "snacks";
+
+    let snacksPorDia = Number(leer("snacksPorDia"));
+    let precioPorUnidad = Number(leer("precioPorUnidad"));
+
+    let aniosRestantes = Math.max(edadMaxima - edadActual, 0);
+
+    let snacksRestantes = Math.round(aniosRestantes * 365 * snacksPorDia);
+
+    let gastoTotal = snacksRestantes * precioPorUnidad;
+
+    document.getElementById("cantidadFinal").textContent =
+        numeros.format(snacksRestantes);
+
+    document.getElementById("nombreSnack").textContent =
+        snackFavorito;
+
+    document.getElementById("gastoTotal").textContent =
+        pesos.format(gastoTotal);
+
+    document.getElementById("fraseSnacks").textContent =
+        "Necesitarás " + numeros.format(snacksRestantes) +
+        " de " + snackFavorito + " durante los próximos " +
+        aniosRestantes + " años.";
+
+}
+
+
+// BOTON DE RESULTADO DE SNACKS
+
+function ejercicio1() {
+
+    let edadActual = Number(leer("edadActual"));
+    let edadMaxima = Number(leer("edadMaxima"));
+
+    let snackFavorito = leer("snackFavorito").trim() || "snacks";
+
+    let snacksPorDia = Number(leer("snacksPorDia"));
+    let precioPorUnidad = Number(leer("precioPorUnidad"));
+
+    let snacksRestantes = Math.round(
+        Math.max(edadMaxima - edadActual, 0) * 365 * snacksPorDia
+    );
+
+    let gastoTotal = snacksRestantes * precioPorUnidad;
+
+    alert(
+        "Necesitarás " + numeros.format(snacksRestantes) +
+        " de " + snackFavorito + " para que te alcancen hasta los " +
+        edadMaxima + " años."
+    );
+
+    alert(
+        "Vas a gastar " + pesos.format(gastoTotal) +
+        " en " + snackFavorito + " a lo largo de tu vida."
+    );
+
+    console.log("Gasto total: " + gastoTotal);
+
+}
+
+
+// CALCULADORA DE VIAJES
+
+function calcularViaje() {
+
+    let diasDeViaje = Number(leer("diasDeViaje"));
+
+    let presupuestoMaximo = Number(leer("presupuestoMaximo"));
+
+    let comidasTotales = Number(leer("comidasTotales"));
+
+    let dineroPorComida = comidasTotales > 0
+        ? presupuestoMaximo / comidasTotales
+        : 0;
+
+    document.getElementById("tDias").textContent =
+        diasDeViaje;
+
+    document.getElementById("tPresupuesto").textContent =
+        pesos.format(presupuestoMaximo);
+
+    document.getElementById("tComidas").textContent =
+        comidasTotales;
+
+    document.getElementById("tPorComida").textContent =
+        pesos.format(dineroPorComida);
+
+    document.getElementById("fraseViaje").textContent =
+        "Podés gastar " + pesos.format(dineroPorComida) +
+        " en cada comida durante tus " + diasDeViaje +
+        " días de viaje.";
+
+}
+
+
+// BOTON DE RESULTADO DE VIAJE
+
+function ejercicio2() {
+
+    let diasDeViaje = Number(leer("diasDeViaje"));
+
+    let presupuestoMaximo = Number(leer("presupuestoMaximo"));
+
+    let comidasTotales = Number(leer("comidasTotales"));
+
+    let dineroPorComida = comidasTotales > 0
+        ? presupuestoMaximo / comidasTotales
+        : 0;
+
+    alert(
+        "Podés gastar " + pesos.format(dineroPorComida) +
+        " en cada comida para que te alcance la plata durante los " +
+        diasDeViaje + " días de viaje."
+    );
+
+}
+
+
+// EVENTOS
+
+document.getElementById("formSnacks").addEventListener("input", calcularSnacks);
+
+document.getElementById("formViaje").addEventListener("input", calcularViaje);
+
+document.getElementById("alertSnacks").addEventListener("click", ejercicio1);
+
+document.getElementById("alertViaje").addEventListener("click", ejercicio2);
+
+
+// RESULTADOS INICIALES
+
+calcularSnacks();
+
+calcularViaje();
