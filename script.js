@@ -1,156 +1,111 @@
 
-const pesos = new Intl.NumberFormat("es-AR", {
+// FORMATO DE NUMEROS
+const formato = new Intl.NumberFormat("es-AR");
+const moneda = new Intl.NumberFormat("es-AR", {
     style: "currency",
     currency: "ARS",
     maximumFractionDigits: 0
 });
 
-const numeros = new Intl.NumberFormat("es-AR");
 
-function leer(id) {
-    return document.getElementById(id).value;
+// FUNCION PARA OBTENER VALORES
+function obtener(id) {
+    return Number(document.getElementById(id).value) || 0;
 }
 
 
-// CALCULADORA DE SNACKS
+// 1. CALCULADORA DE SNACKS
 
 function calcularSnacks() {
 
-    let edadActual = Number(leer("edadActual"));
-    let edadMaxima = Number(leer("edadMaxima"));
+    let edad = obtener("edadActual");
+    let edadMaxima = obtener("edadMaxima");
+    let snacksDia = obtener("snacksPorDia");
+    let precio = obtener("precioPorUnidad");
 
-    let snackFavorito = leer("snackFavorito").trim() || "snacks";
+    let snack = document.getElementById("snackFavorito").value;
 
-    let snacksPorDia = Number(leer("snacksPorDia"));
-    let precioPorUnidad = Number(leer("precioPorUnidad"));
-
-    let aniosRestantes = Math.max(edadMaxima - edadActual, 0);
-
-    let snacksRestantes = Math.round(aniosRestantes * 365 * snacksPorDia);
-
-    let gastoTotal = snacksRestantes * precioPorUnidad;
+    let anios = Math.max(edadMaxima - edad, 0);
+    let cantidad = Math.round(anios * 365 * snacksDia);
+    let gasto = cantidad * precio;
 
     document.getElementById("cantidadFinal").textContent =
-        numeros.format(snacksRestantes);
+        formato.format(cantidad);
 
     document.getElementById("nombreSnack").textContent =
-        snackFavorito;
+        snack || "Snacks";
 
     document.getElementById("gastoTotal").textContent =
-        pesos.format(gastoTotal);
+        moneda.format(gasto);
 
     document.getElementById("fraseSnacks").textContent =
-        "Necesitarás " + numeros.format(snacksRestantes) +
-        " de " + snackFavorito + " durante los próximos " +
-        aniosRestantes + " años.";
+        "Calculado para los próximos " + anios + " años.";
 
 }
 
 
-// BOTON DE RESULTADO DE SNACKS
-
-function ejercicio1() {
-
-    let edadActual = Number(leer("edadActual"));
-    let edadMaxima = Number(leer("edadMaxima"));
-
-    let snackFavorito = leer("snackFavorito").trim() || "snacks";
-
-    let snacksPorDia = Number(leer("snacksPorDia"));
-    let precioPorUnidad = Number(leer("precioPorUnidad"));
-
-    let snacksRestantes = Math.round(
-        Math.max(edadMaxima - edadActual, 0) * 365 * snacksPorDia
-    );
-
-    let gastoTotal = snacksRestantes * precioPorUnidad;
-
-    alert(
-        "Necesitarás " + numeros.format(snacksRestantes) +
-        " de " + snackFavorito + " para que te alcancen hasta los " +
-        edadMaxima + " años."
-    );
-
-    alert(
-        "Vas a gastar " + pesos.format(gastoTotal) +
-        " en " + snackFavorito + " a lo largo de tu vida."
-    );
-
-    console.log("Gasto total: " + gastoTotal);
-
-}
-
-
-// CALCULADORA DE VIAJES
+// 2. CALCULADORA DE VIAJE
 
 function calcularViaje() {
 
-    let diasDeViaje = Number(leer("diasDeViaje"));
+    let dias = obtener("diasDeViaje");
+    let presupuesto = obtener("presupuestoMaximo");
+    let comidas = obtener("comidasTotales");
 
-    let presupuestoMaximo = Number(leer("presupuestoMaximo"));
+    let porComida = comidas > 0 ? presupuesto / comidas : 0;
 
-    let comidasTotales = Number(leer("comidasTotales"));
-
-    let dineroPorComida = comidasTotales > 0
-        ? presupuestoMaximo / comidasTotales
-        : 0;
-
-    document.getElementById("tDias").textContent =
-        diasDeViaje;
+    document.getElementById("tDias").textContent = dias;
 
     document.getElementById("tPresupuesto").textContent =
-        pesos.format(presupuestoMaximo);
+        moneda.format(presupuesto);
 
-    document.getElementById("tComidas").textContent =
-        comidasTotales;
+    document.getElementById("tComidas").textContent = comidas;
 
     document.getElementById("tPorComida").textContent =
-        pesos.format(dineroPorComida);
+        moneda.format(porComida);
 
     document.getElementById("fraseViaje").textContent =
-        "Podés gastar " + pesos.format(dineroPorComida) +
-        " en cada comida durante tus " + diasDeViaje +
-        " días de viaje.";
+        "Podés gastar " + moneda.format(porComida) +
+        " por comida durante tu viaje.";
 
 }
 
 
-// BOTON DE RESULTADO DE VIAJE
+// 3. BOTONES
 
-function ejercicio2() {
+document.getElementById("alertSnacks").addEventListener("click", function() {
 
-    let diasDeViaje = Number(leer("diasDeViaje"));
+    calcularSnacks();
 
-    let presupuestoMaximo = Number(leer("presupuestoMaximo"));
+    alert("¡Vas a necesitar " +
+        document.getElementById("cantidadFinal").textContent +
+        " snacks!");
 
-    let comidasTotales = Number(leer("comidasTotales"));
-
-    let dineroPorComida = comidasTotales > 0
-        ? presupuestoMaximo / comidasTotales
-        : 0;
-
-    alert(
-        "Podés gastar " + pesos.format(dineroPorComida) +
-        " en cada comida para que te alcance la plata durante los " +
-        diasDeViaje + " días de viaje."
-    );
-
-}
+});
 
 
-// EVENTOS
+document.getElementById("alertViaje").addEventListener("click", function() {
 
-document.getElementById("formSnacks").addEventListener("input", calcularSnacks);
+    calcularViaje();
 
-document.getElementById("formViaje").addEventListener("input", calcularViaje);
+    alert("Tu presupuesto por comida es de " +
+        document.getElementById("tPorComida").textContent);
 
-document.getElementById("alertSnacks").addEventListener("click", ejercicio1);
-
-document.getElementById("alertViaje").addEventListener("click", ejercicio2);
+});
 
 
-// RESULTADOS INICIALES
+// 4. ACTUALIZACION AUTOMATICA
+
+document.querySelectorAll("#formSnacks input").forEach(function(input) {
+    input.addEventListener("input", calcularSnacks);
+});
+
+document.querySelectorAll("#formViaje input").forEach(function(input) {
+    input.addEventListener("input", calcularViaje);
+});
+
+
+// 5. CALCULOS INICIALES
 
 calcularSnacks();
-
 calcularViaje();
